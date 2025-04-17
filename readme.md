@@ -1,8 +1,6 @@
 # 중고거래 웹 플랫폼
 
 Flask 기반의 소형 중고거래 플랫폼입니다.  
-사용자 간 상품 거래와 1:1 실시간 채팅, 신고 기능 등 다양한 기능을 구현하였으며, 시큐어 코딩 원칙에 따라 보안 요소도 적용하였습니다.
-
 ---
 
 ## 주요 기능
@@ -15,17 +13,12 @@ Flask 기반의 소형 중고거래 플랫폼입니다.
 - 신고 기능 (상품/유저)
 - 관리자 페이지 (전체 사용자, 상품, 신고 내역 관리)
 - 신고 누적 시 자동 비활성화 / 휴면계정 전환
-
 ---
+## 실행 환경
 
-## 보안 강화 적용 내역
-
-- 비밀번호 SHA-256 해시 처리 저장
-- 로그인 시 해시 검증
-- 송금 금액 유효성 검사 (`0 이상 정수`만 허용)
-- 휴면 사용자 로그인 차단
-
----
+- Python 3.9+
+- Flask
+- SQLite
 
 ## 설치 방법
 
@@ -36,3 +29,9 @@ git clone https://github.com/ugonfor/secure-coding.git
 cd secure-coding
 conda env create -f environment.yaml
 conda activate secure-coding
+
+# 패키지 설치
+pip install -r requirements.txt
+
+# 서버 실행
+python app.py
