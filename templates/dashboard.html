@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}대시보드{% endblock %}
+{% block content %}
+<h2>대시보드</h2>
+
+<!-- 검색창 -->
+<form method="get" action="{{ url_for('dashboard') }}" style="display: flex; align-items: center; gap: 8px; margin-bottom: 30px;">
+  <input type="text" name="q" placeholder="검색어를 입력해주세요"
+         style="padding: 12px 18px; width: 700px; font-size: 16px;
+                border: 1px solid #ccc; border-radius: 800px; outline: none;" />
+  
+  <button type="submit"
+          style="padding: 25px 25px; border: none; border-radius: 50%;
+                 background-color: #333; color: white; font-size: 14px;
+                 width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+                 cursor: pointer;">
+    🔍
+  </button>
+</form>
+
+<!-- 상단 제목 + 새 상품 등록 버튼 우측 정렬 -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  <h3 style="margin: 0;">등록된 상품</h3>
+  <a href="{{ url_for('new_product') }}"
+     style="text-decoration: none; background-color: #007AFF; color: white; padding: 8px 14px;
+            border-radius: 8px; font-size: 14px;">
+    ➕ 새 상품 등록
+  </a>
+</div>
+
+<!-- 상품 그리드 -->
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;">
+  {% for product in products %}
+  <div style="border: 1px solid #ddd; border-radius: 10px; background-color: #fff;">
+    <a href="{{ url_for('view_product', product_id=product['id']) }}" style="text-decoration: none; color: inherit;">
+      <div style="width: 100%; aspect-ratio: 1/1; overflow: hidden;">
+        <img src="{{ url_for('static', filename=product['image'] or 'default.png') }}"
+             alt="{{ product['title'] }}" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+    </a>
+    <div style="padding: 10px;">
+      <div style="font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        {{ product['title'] }}
+      </div>
+      <div style="font-weight: bold; margin-top: 4px;">{{ product['price'] }} 원</div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+        <div style="color: #888; font-size: 13px;">
+          <a href="{{ url_for('user_profile', username=product['seller_username']) }}"
+             style="text-decoration: none; color: #888;">
+            {{ product['seller_username'] }}
+          </a>
+        </div>
+        <a href="{{ url_for('private_chat', receiver_id=product['seller_id']) }}"
+           style="background-color: #007AFF; color: white; padding: 6px 12px; font-size: 13px;
+                  border-radius: 6px; text-decoration: none; font-weight: bold;">
+          1:1 채팅하기
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

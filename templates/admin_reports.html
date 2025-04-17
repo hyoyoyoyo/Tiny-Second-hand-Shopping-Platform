@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}관리자 페이지{% endblock %}
+{% block content %}
+<h2>🛠 관리자 전용 관리 페이지</h2>
+
+<!-- 🚨 신고 내역 -->
+<h3>🧾 신고 내역</h3>
+{% if reports %}
+<table>
+  <thead>
+    <tr>
+      <th>신고자</th>
+      <th>타겟</th>
+      <th>사유</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in reports %}
+    <tr>
+      <td>{{ r.reporter_name or r.reporter_id }}</td>
+      <td>{{ r.target_name or r.target_id }}</td>
+      <td>{{ r.reason }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>신고 내역이 없습니다.</p>
+{% endif %}
+
+<!-- 👥 사용자 목록 -->
+<h3 style="margin-top: 40px;">👥 전체 사용자</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>사용자명</th>
+      <th>소개글</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.bio or '-' }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- 📦 전체 상품 -->
+<h3 style="margin-top: 40px;">📦 등록된 상품</h3>
+<table>
+  <thead>
+    <tr>
+      <th>상품명</th>
+      <th>가격</th>
+      <th>판매자 ID</th>
+      <th>상태</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.title }}</td>
+      <td>{{ "{:,}".format(int(p.price)) }} 원</td>
+      <td>{{ p.seller_id }}</td>
+      <td>{{ "활성" if p.active else "차단됨" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

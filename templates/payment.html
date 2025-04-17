@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}송금하기{% endblock %}
+{% block content %}
+<h2>송금하기</h2>
+
+<form method="post" style="max-width: 400px; margin: auto;">
+  받는 사람 ID:
+  <input type="text" name="recipient_id" value="{{ recipient.id }}" readonly
+         style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; background-color: #eee;"><br>
+
+  금액 (원):  
+  <input type="number" name="amount" min="1" required
+         inputmode="numeric" pattern="\d*"
+         style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;"><br>
+
+  <button type="submit"
+          style="width: 100%; padding: 12px; background-color: #007bff; color: white; font-weight: bold; border: none; border-radius: 6px;">
+    송금하기
+  </button>
+</form>
+{% endblock %}

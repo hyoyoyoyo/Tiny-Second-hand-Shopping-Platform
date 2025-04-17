@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}상품 상세정보{% endblock %}
+{% block content %}
+<div style="display: flex; gap: 40px; max-width: 1000px; margin: auto; padding: 30px 0;">
+  <!-- 왼쪽 이미지 -->
+  <div style="flex: 1;">
+    <img src="{{ url_for('static', filename='default.png') }}" alt="{{ product.title }}" style="width: 100%; border-radius: 10px;">
+  </div>
+
+  <!-- 오른쪽 정보 -->
+  <div style="flex: 1;">
+    <h2 style="font-size: 24px;">{{ product.title }}</h2>
+    <div style="font-size: 22px; font-weight: bold; margin: 10px 0;">
+      {{ "{:,}".format(product.price) }} 원
+
+    </div>
+    
+    <div style="margin-bottom: 20px; color: #333;">{{ product.description }}</div>
+
+
+  <!-- 🔹 판매자 정보 추가 -->
+  <p><strong>판매자:</strong>
+    <a href="{{ url_for('user_profile', username=product.seller_id) }}">
+      {{ product.seller_id }}
+    </a>
+  </p>
+
+  <!-- 버튼들 -->
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <a href="{{ url_for('report') }}" class="btn-blue">🚨 신고하기</a>
+    <a href="{{ url_for('private_chat', receiver_id=product['seller_id']) }}" class="btn-blue">💬 채팅하기</a>
+    <a href="{{ url_for('payment', receiver_id=product['seller_id']) }}" class="btn-blue">
+  💸 송금하기
+</a>
+
+  </div>
+</div>
+
+
+<style>
+  .btn-blue {
+    background-color: #007AFF;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+</style>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ target.username }}님과 채팅{% endblock %}
+{% block content %}
+<h2>{{ target.username }}님과의 1:1 채팅</h2>
+
+<div id="chat" style="max-width: 500px; margin: auto;">
+  <ul id="messages" style="height: 250px; border: 1px solid #ddd; overflow-y: scroll; padding: 10px; background-color: #f7f7f7; border-radius: 10px;"></ul>
+
+  <input id="chat_input" type="text" placeholder="메시지를 입력하세요"
+         style="width: 100%; padding: 10px; margin-top: 10px; border-radius: 6px; border: 1px solid #ccc;">
+
+  <!-- 전송 버튼 -->
+  <button onclick="sendMessage()"
+          style="width: 100%; padding: 12px; margin-top: 10px; background-color: #007bff; color: white; font-weight: bold; border: none; border-radius: 6px;">
+    전송
+  </button>
+
+  <!-- 송금하기 버튼 (상대방 ID 포함된 라우팅) -->
+  <button onclick="location.href='{{ url_for('payment', receiver_id=target.id) }}'"
+          style="width: 100%; padding: 12px; margin-top: 10px; background-color: #28a745; color: white; font-weight: bold; border: none; border-radius: 6px;">
+    💸 송금하기
+  </button>
+</div>
+
+<!-- 소켓 연결 및 메시지 처리 -->
+<script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+<script type="text/javascript">
+  const socket = io();
+  const room = "{{ user['id'] }}_{{ target['id'] }}";
+
+  socket.emit('join_room', { room: room });
+
+  socket.on('connect', function () {
+    console.log("✅ 연결됨");
+  });
+
+  socket.on('message', function (data) {
+    const item = document.createElement('li');
+    item.textContent = `${data.sender}: ${data.message}`;
+    document.getElementById('messages').appendChild(item);
+  });
+
+  function sendMessage() {
+    const input = document.getElementById('chat_input');
+    const message = input.value;
+    if (message.trim()) {
+      socket.emit('send_private_message', {
+        room: room,
+        sender: "{{ user['username'] }}",
+        message: message
+      });
+      input.value = '';
+    }
+  }
+</script>
+{% endblock %}

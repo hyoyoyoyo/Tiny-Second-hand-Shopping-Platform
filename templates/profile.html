@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}프로필{% endblock %}
+{% block content %}
+<h2>프로필 관리</h2>
+
+<p>사용자명: {{ user['username'] }}</p>
+
+<!-- ✅ 소개글 수정 Form -->
+<form method="post" style="margin-bottom: 30px;">
+  소개글: <br>
+  <textarea name="bio" rows="4" cols="50">{{ user['bio'] or '' }}</textarea><br><br>
+  <button type="submit" name="action" value="update_bio" 
+          style="background-color: #007AFF; color: white; padding: 10px 20px; border: none; border-radius: 6px;">
+    소개글 업데이트
+  </button>
+</form>
+
+<!-- ✅ 비밀번호 변경 Form -->
+<h4>비밀번호 변경</h4>
+<form method="post">
+  새 비밀번호: <br>
+  <input type="password" name="new_password"
+         style="padding: 8px; border: 1px solid #ccc; border-radius: 6px; width: 300px;"><br><br>
+  <button type="submit" name="action" value="update_password"
+          style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 6px;">
+    비밀번호 변경
+  </button>
+</form>
+{% endblock %}
